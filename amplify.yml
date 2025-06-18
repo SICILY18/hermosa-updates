@@ -8,12 +8,14 @@ frontend:
   phases:
     preBuild:
       commands:
+        # Install Composer
+        - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
         # Install PHP dependencies
         - composer install --no-dev --optimize-autoloader --no-interaction
-        # Install Node.js dependencies
+        # Install Node.js dependencies  
         - npm ci --only=production
         # Copy environment file
-        - cp .env.aws-production .env
+        - cp env-aws-production-template.txt .env
     build:
       commands:
         # Build frontend assets
