@@ -289,3 +289,15 @@ You've successfully deployed your Laravel application on AWS!
 ---
 
 **Need help? Don't hesitate to ask! 🚀** 
+
+# Navigate to admin folder
+cd admin
+
+# Add changes
+git add .
+
+# Commit changes
+git commit -m "Your update message"
+
+# Push to GitHub
+git push

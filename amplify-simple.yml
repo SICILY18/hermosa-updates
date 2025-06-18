@@ -1,0 +1,33 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        # Install PHP and Composer
+        - yum update -y
+        - yum install -y php php-cli php-json php-zip php-mbstring php-xml curl unzip
+        - curl -sS https://getcomposer.org/installer | php
+        - mv composer.phar /usr/local/bin/composer
+        - chmod +x /usr/local/bin/composer
+        # Install Node.js and npm
+        - curl -sL https://rpm.nodesource.com/setup_18.x | bash -
+        - yum install -y nodejs
+    build:
+      commands:
+        # Install PHP dependencies
+        - composer install --no-dev --optimize-autoloader --no-interaction
+        # Install Node dependencies and build
+        - npm ci
+        - npm run build
+        # Laravel optimizations
+        - php artisan config:cache
+        - php artisan route:cache
+        - php artisan view:cache
+  artifacts:
+    baseDirectory: /
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - vendor/**/*
+      - node_modules/**/* 
