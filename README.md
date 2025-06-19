@@ -1,66 +1,230 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Hermosa Water District - Backend API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Laravel backend API for the Hermosa Water District management system.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- 🔐 Admin authentication with sessions
+- 👥 Staff and customer management
+- 💰 Payment processing and billing
+- 📢 Announcements system
+- 🎟️ Ticket management
+- 📊 Dashboard statistics
+- 🗄️ Supabase PostgreSQL integration
+- 🔄 RESTful API endpoints
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tech Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Framework:** Laravel 9.x
+- **Database:** PostgreSQL (via Supabase)
+- **Authentication:** Laravel Sessions
+- **Frontend Integration:** Inertia.js (for admin panel)
+- **External API:** Supabase REST API
 
-## Learning Laravel
+## Getting Started
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Prerequisites
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- PHP 8.0 or higher
+- Composer
+- Node.js and npm
+- PostgreSQL database (Supabase recommended)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Local Development Setup
 
-## Laravel Sponsors
+1. Clone the repository:
+```bash
+git clone <your-backend-repo-url>
+cd hermosa-water-district-backend
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+2. Install PHP dependencies:
+```bash
+composer install
+```
 
-### Premium Partners
+3. Install JavaScript dependencies:
+```bash
+npm install
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+4. Create environment file:
+```bash
+cp env.example .env
+```
+
+5. Generate application key:
+```bash
+php artisan key:generate
+```
+
+6. Configure your environment variables in `.env`:
+```env
+APP_NAME="Hermosa Water District"
+APP_URL=http://localhost:8000
+DB_CONNECTION=pgsql
+DB_HOST=your-supabase-host
+DB_DATABASE=postgres
+DB_USERNAME=your-username
+DB_PASSWORD=your-password
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+FRONTEND_URL=http://localhost:3000
+```
+
+7. Run database migrations:
+```bash
+php artisan migrate
+```
+
+8. Seed the database (optional):
+```bash
+php artisan db:seed
+```
+
+9. Build frontend assets:
+```bash
+npm run build
+```
+
+10. Start the development server:
+```bash
+php artisan serve
+```
+
+The API will be available at `http://localhost:8000`.
+
+## Deployment on Render
+
+This application is configured for deployment on Render.
+
+### Deploy to Render
+
+1. **Create a new Web Service on Render**
+   - Connect your GitHub repository
+   - Choose "PHP" as the environment
+   - Use the following settings:
+
+2. **Build Settings:**
+   - Build Command: `composer install --no-dev --optimize-autoloader && php artisan config:cache && php artisan route:cache && php artisan view:cache && npm install && npm run build`
+   - Start Command: `php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT`
+
+3. **Environment Variables:**
+   Add all the variables from your `env.example` file to Render's environment variables section.
+
+4. **Database Setup:**
+   - Create a PostgreSQL database on Supabase
+   - Add the database credentials to your Render environment variables
+
+5. **Deploy:**
+   - Push your code to GitHub
+   - Render will automatically deploy your application
+
+## API Endpoints
+
+### Authentication
+- `POST /api/admin-login` - Admin login
+- `POST /api/admin-logout` - Admin logout
+- `GET /api/check-auth` - Check authentication status
+- `GET /api/user` - Get current user
+
+### Dashboard
+- `GET /api/dashboard/stats` - Get dashboard statistics
+
+### Accounts Management
+- `GET /api/accounts` - List all accounts
+- `POST /api/accounts/staff` - Create staff account
+- `PUT /api/accounts/staff/{id}` - Update staff account
+- `DELETE /api/accounts/staff/{id}` - Delete staff account
+- `POST /api/accounts/customer` - Create customer account
+- `PUT /api/accounts/customer/{id}` - Update customer account
+- `DELETE /api/accounts/customer/{id}` - Delete customer account
+
+### Rate Management
+- `GET /api/rates` - Get all rates
+- `POST /api/rates` - Create new rate
+- `PUT /api/rates/{id}` - Update rate
+- `DELETE /api/rates/{id}` - Delete rate
+
+### Announcements
+- `GET /api/announcements` - Get all announcements
+- `POST /api/announcements` - Create announcement
+- `PUT /api/announcements/{id}` - Update announcement
+- `DELETE /api/announcements/{id}` - Delete announcement
+
+### Tickets
+- `GET /api/tickets` - Get all tickets
+- `POST /api/tickets` - Create ticket
+- `GET /api/tickets/{id}` - Get specific ticket
+- `PUT /api/tickets/{id}` - Update ticket
+- `DELETE /api/tickets/{id}` - Delete ticket
+
+### Payments
+- `GET /api/payments` - Get all payments
+- `POST /api/payments` - Create payment
+- `POST /api/payments/{id}/approve` - Approve payment
+
+## Database Schema
+
+The application uses Supabase PostgreSQL with the following main tables:
+
+- `staff_tb` - Staff members
+- `customers_tb` - Customer accounts
+- `payments` - Payment records
+- `bills` - Billing information
+- `rates_tb` - Water rates
+- `announcements_tb` - System announcements
+- `tickets_tb` - Support tickets
+
+## Configuration
+
+### CORS Configuration
+The application is configured to accept requests from:
+- Your frontend domain (set via `FRONTEND_URL`)
+- All Vercel domains (`*.vercel.app`)
+- Local development domains
+
+### Session Configuration
+- Sessions are stored in the database
+- Session lifetime is configurable via `SESSION_LIFETIME`
+- CSRF protection is enabled for all non-API routes
+
+### Supabase Integration
+The application uses Supabase for:
+- PostgreSQL database hosting
+- Real-time subscriptions (if needed)
+- Row Level Security (RLS) policies
+
+## Environment Variables
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `APP_KEY` | Laravel application key | Yes |
+| `APP_URL` | Application URL | Yes |
+| `DB_HOST` | Database host | Yes |
+| `DB_DATABASE` | Database name | Yes |
+| `DB_USERNAME` | Database username | Yes |
+| `DB_PASSWORD` | Database password | Yes |
+| `SUPABASE_URL` | Supabase project URL | Yes |
+| `SUPABASE_ANON_KEY` | Supabase anonymous key | Yes |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key | Yes |
+| `FRONTEND_URL` | Frontend application URL | Yes |
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Run tests (`php artisan test`)
+5. Commit your changes (`git commit -m 'Add amazing feature'`)
+6. Push to the branch (`git push origin feature/amazing-feature`)
+7. Open a Pull Request
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is proprietary software for Hermosa Water District.
+
+## Support
+
+For support and questions, please contact the development team or create an issue in the repository.
