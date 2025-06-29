@@ -78,8 +78,11 @@ Route::middleware(['admin.auth'])->group(function () {
     Route::prefix('tickets')->group(function () {
         Route::get('/', [TicketsController::class, 'index']);
         Route::post('/', [TicketsController::class, 'store']);
+        Route::get('/customers', [TicketsController::class, 'getCustomers']);
+        Route::get('/categories', [TicketsController::class, 'getCategories']);
         Route::get('/{id}', [TicketsController::class, 'show']);
         Route::put('/{id}', [TicketsController::class, 'update']);
+        Route::put('/ref/{ticketReference}', [TicketsController::class, 'updateByReference']);
         Route::delete('/{id}', [TicketsController::class, 'destroy']);
     });
 
@@ -98,4 +101,11 @@ Route::get('/debug/check-admin', function() {
         'admins' => $admins,
         'count' => $admins->count()
     ]);
+});
+
+// Public Customer Ticket Routes (no authentication required)
+Route::prefix('public')->group(function () {
+    Route::get('/tickets/customers', [TicketsController::class, 'getCustomers']);
+    Route::get('/tickets/categories', [TicketsController::class, 'getCategories']);
+    Route::post('/tickets', [TicketsController::class, 'store']);
 });
